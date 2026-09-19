@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <!-- 文章配图占位符：新文章需要配图时可复制此文件改名使用，或放同名 png/jpg -->
+  <rect width="1280" height="720" fill="#f2f4f8"/>
+  <rect x="40" y="40" width="1200" height="640" fill="none" stroke="#9aa4b5" stroke-width="3" stroke-dasharray="14 10" rx="12"/>
+  <g font-family="Arial, Helvetica, sans-serif" text-anchor="middle" fill="#5a6377">
+    <text x="640" y="330" font-size="56" font-weight="600">图片占位符 (Image Placeholder)</text>
+    <text x="640" y="400" font-size="30">建议尺寸 1280 × 720 ｜ 放置于 /assets/images/ 目录</text>
+  </g>
+</svg>

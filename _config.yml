@@ -1,0 +1,135 @@
+# =============================================================================
+# justai-blog 站点配置
+# =============================================================================
+# 本文件是全站唯一的“主题相关配置中心”：
+#   - 文章（_posts/）只使用标准 Front Matter（title/date/categories/tags/
+#     description），不包含任何主题专用设置；
+#   - 布局、阅读时间、目录、作者侧栏等主题行为全部由下方 defaults 统一提供；
+#   - 因此【切换主题 = 只改本文件】，文章零改动。
+# 具体切换方法见 README.md 的「切换主题」章节。
+# =============================================================================
+
+# ---------- 站点基础信息 ----------
+title: Just AI Blog
+name: Tuhuaqing
+description: >-
+  记录 AI、云原生与工程实践的长期技术博客。
+  由 Jekyll + GitHub Pages 驱动，写 Markdown 即发布。
+
+locale: "zh-CN"                      # 界面语言（Minimal Mistakes 内置中文文案）
+timezone: Asia/Shanghai
+
+# 上线后的访问地址：绑定自定义域名后改成 https://your-domain.com
+url: "https://tuhuaqing.github.io"
+baseurl: ""                          # 仓库为 <username>.github.io 时保持为空
+
+# ---------- 主题（Theme）----------
+# Minimal Mistakes：成熟、长期维护、适合技术博客的 Jekyll 主题
+# 文档: https://mmistakes.github.io/minimal-mistakes/docs/
+#
+# 【切换主题只需改这一行】，例如换成官方 minima:
+#   remote_theme: "jekyll/minima@2.5.1"
+remote_theme: "mmistakes/minimal-mistakes@4.28.1"
+
+# 主题皮肤（仅 Minimal Mistakes 生效）:
+# air / aqua / contrast / dark / dirt / mint / neon / plum / sunrise
+minimal_mistakes_skin: "contrast"
+
+# ---------- 首页与文章 ----------
+permalink: /:year/:month/:day/:title/   # 任何主题通用，改主题无需变动
+paginate: 10                            # 首页每页文章数
+paginate_path: "/page:num/"
+
+# ---------- Markdown 渲染 ----------
+markdown: kramdown
+kramdown:
+  input: GFM                           # GitHub Flavored Markdown（表格、围栏代码块）
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  enable_coderay: false
+highlighter: rouge
+
+# ---------- 站内搜索（Minimal Mistakes 前端实现，无需插件）----------
+search: true
+
+# ---------- 分类 / 标签归档（Liquid 实现，无需 jekyll-archives）----------
+category_archive:
+  type: liquid
+  path: /categories/
+tag_archive:
+  type: liquid
+  path: /tags/
+
+# ---------- _pages 目录 ----------
+# 下划线开头的目录默认不参与构建，显式 include 后，
+# _pages/ 下的页面（配合各自的 permalink）输出到站点根路径
+include:
+  - _pages
+
+# ---------- 构建时排除的文件 ----------
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - assets/images/README.md   # 防止被 jekyll-readme-index 渲染成目录页
+  - vendor
+  - .github
+  - .bundle
+
+# ---------- 作者信息 ----------
+author:
+  name: "Tuhuaqing"
+  avatar: "/assets/images/avatar.svg"   # 占位头像，可替换为 png/jpg
+  bio: "AI / 云原生 / 工程效率"
+  location: "China"
+  links:
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github-square"
+      url: "https://github.com/Tuhuaqing"
+
+# ---------- 页脚 ----------
+footer:
+  links:
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github-square"
+      url: "https://github.com/Tuhuaqing"
+
+# =============================================================================
+# 主题相关默认值（集中在此，与文章内容解耦）
+# =============================================================================
+# _posts 下的文章无需在 Front Matter 里写 layout 等主题字段，
+# 以下 defaults 会自动应用到所有文章/页面。
+# 换主题时：把这里的布局与选项调整为新主题的写法即可。
+defaults:
+  # 文章 _posts/
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single            # Minimal Mistakes 的文章布局
+      author_profile: true      # 显示作者侧栏
+      read_time: true           # 显示阅读时长
+      comments: false           # 评论（未配置评论系统，保持 false）
+      share: false              # 文末分享按钮
+      related: true             # 显示相关文章
+      toc: true                 # 自动生成目录
+      toc_sticky: true          # 目录固定在侧边
+  # 页面 _pages/
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+      author_profile: true
+
+# ---------- SEO / Feed / Sitemap 插件 ----------
+# 全部位于 GitHub Pages 官方插件白名单内，线上构建开箱即用；
+# 本地由 Gemfile 中的 github-pages gem 提供同名插件。
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-include-cache

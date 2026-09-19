@@ -1,0 +1,31 @@
+# ===== Jekyll 构建产物 =====
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+# ===== Ruby / Bundler =====
+.bundle/
+vendor/
+*.gem
+
+# ===== 敏感信息（绝不提交）=====
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*credentials*
+*token*
+*secret*
+
+# ===== 编辑器 / 操作系统 =====
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ===== 临时文件 =====
+*.swp
+*.log
+tmp/

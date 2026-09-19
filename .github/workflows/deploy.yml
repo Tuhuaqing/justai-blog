@@ -1,0 +1,64 @@
+# =============================================================================
+# 将 Jekyll 站点构建并发布到 GitHub Pages
+# =============================================================================
+# 流程：push 到 main → checkout → 配置 Pages → 官方 Jekyll 构建 →
+#       上传 artifact → deploy-pages 发布
+#
+# 使用官方 action `actions/jekyll-build-pages`：与 GitHub Pages 内置构建
+# 使用完全相同的工具链（Jekyll 版本与插件白名单一致），不存在兼容性漂移。
+# 构建失败会直接使 workflow 变红，并在邮件/页面中暴露错误。
+#
+# 前提（一次性）：仓库 Settings → Pages → Build and deployment →
+#                 Source 选择 "GitHub Actions"。
+# =============================================================================
+name: Build and Deploy Jekyll site to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch: # 支持在 Actions 页面手动触发
+
+# GITHUB_TOKEN 的最小权限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时间只允许一个部署任务，排队而不取消（避免中间状态发布）
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # ---------- 构建阶段 ----------
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v6
+
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./_site
+
+  # ---------- 部署阶段 ----------
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

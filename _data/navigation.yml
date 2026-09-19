@@ -1,0 +1,15 @@
+# 顶部导航 / 侧边栏主导航（Minimal Mistakes 读取此文件渲染菜单）
+# 换主题时只需按新主题的导航格式重写此文件或删除它。
+main:
+  - title: "首页"
+    url: /
+  - title: "归档"
+    url: /archive/
+  - title: "分类"
+    url: /categories/
+  - title: "标签"
+    url: /tags/
+  - title: "搜索"
+    url: /search/
+  - title: "关于"
+    url: /about/
