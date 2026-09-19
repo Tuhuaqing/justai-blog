@@ -2,7 +2,8 @@
 
 个人技术博客：写 Markdown，`git push`，自动发布。
 
-- **线上地址**：<https://tuhuaqing.github.io/justai-blog/>（绑定自定义域名后更新此链接）
+- **线上地址**：<https://justtu.com>（自定义域名；默认地址
+  <https://tuhuaqing.github.io/justai-blog/> 会自动 301 重定向到它）
 - **技术栈**：Jekyll · GitHub Pages · GitHub Actions · Minimal Mistakes 主题
 - **写作-发布闭环**：新建 Markdown → commit → push → 几分钟后自动上线
 
@@ -113,7 +114,18 @@ remote_theme: "mmistakes/minimal-mistakes@4.28.1"
 
 ## 自定义域名
 
-默认地址为 `https://<username>.github.io`。绑定自有域名两步：
+本站已绑定 **justtu.com**（apex 顶级域）。
+
+- 仓库根目录的 `CNAME` 文件内容为 `justtu.com`，GitHub Pages
+  设置中的 Custom domain 已启用；
+- apex 域不能使用 CNAME 记录，DNS 由 Cloudflare 托管，配置为
+  GitHub Pages 官方 A 记录（4 条）与 AAAA 记录（4 条），
+  代理状态为 **DNS only**（灰色云）；
+- HTTPS 由 GitHub 自动签发 Let's Encrypt 证书并强制跳转。
+
+### 绑定新域名的通用步骤
+
+默认地址为 `https://<username>.github.io/<repo>/`。绑定自有域名两步：
 
 1. **DNS 解析**（在你的域名服务商处配置）：
 
@@ -122,10 +134,8 @@ remote_theme: "mmistakes/minimal-mistakes@4.28.1"
    | 子域名（推荐，如 `blog.example.com`） | `CNAME` | `blog` | `tuhuaqing.github.io` |
    | 顶级域（如 `example.com`） | `A` / `AAAA` | `@` | GitHub Pages 官方公布的 IP（见[官方文档](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site)） |
 
-2. **仓库设置**：`Settings → Pages → Custom domain` 填入域名保存，
-   并勾选 **Enforce HTTPS**。
-
-   也可以在仓库根目录创建 `CNAME` 文件（内容只有一行域名）替代页面操作。
+2. **仓库设置**：更新根目录 `CNAME` 文件内容为新域名（一行），
+   并在 `Settings → Pages → Custom domain` 中保存，勾选 **Enforce HTTPS**。
 
 绑定成功后，更新 [`_config.yml`](_config.yml)：`url` 改为新域名
 （影响 RSS、canonical 等绝对链接），`baseurl` 改为空字符串

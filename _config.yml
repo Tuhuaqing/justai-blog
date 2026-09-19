@@ -19,10 +19,9 @@ description: >-
 locale: "zh-CN"                      # 界面语言（Minimal Mistakes 内置中文文案）
 timezone: Asia/Shanghai
 
-# 上线后的访问地址：绑定自定义域名后改成 https://your-domain.com，
-# 同时把 baseurl 改为空字符串
-url: "https://tuhuaqing.github.io"
-baseurl: "/justai-blog"                 # project 页面托管在仓库名子路径下
+# 上线后的访问地址（已绑定自定义域名 justtu.com）
+url: "https://justtu.com"
+baseurl: ""                          # 自定义域名下站点位于根路径
 
 # ---------- 主题（Theme）----------
 # Minimal Mistakes：成熟、长期维护、适合技术博客的 Jekyll 主题
