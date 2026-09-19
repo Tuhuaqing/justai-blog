@@ -2,7 +2,7 @@
 
 个人技术博客：写 Markdown，`git push`，自动发布。
 
-- **线上地址**：<https://tuhuaqing.github.io>（绑定自定义域名后更新此链接）
+- **线上地址**：<https://tuhuaqing.github.io/justai-blog/>（绑定自定义域名后更新此链接）
 - **技术栈**：Jekyll · GitHub Pages · GitHub Actions · Minimal Mistakes 主题
 - **写作-发布闭环**：新建 Markdown → commit → push → 几分钟后自动上线
 
@@ -60,7 +60,8 @@ description: "一句话摘要，用于列表页与 SEO。"
 - Front Matter 只用标准字段：`title` / `date` / `categories` / `tags` / `description`；
 - 不要在文章里写主题专用 HTML，主题行为由 `_config.yml` 的 `defaults` 统一控制；
 - `date` 不要写未来时间，否则文章不会发布（Jekyll 默认跳过未来文章）；
-- 图片放 `assets/images/`，文中用 `![说明](/assets/images/xxx.png)` 引用。
+- 图片放 `assets/images/`，文中用 `![说明]({{ site.baseurl }}/assets/images/xxx.png)` 引用
+  （Jekyll 官方标准写法，任何部署子路径下都正确；绑定自定义域名后无需改动）；
 
 ## 如何发布
 
@@ -126,8 +127,10 @@ remote_theme: "mmistakes/minimal-mistakes@4.28.1"
 
    也可以在仓库根目录创建 `CNAME` 文件（内容只有一行域名）替代页面操作。
 
-绑定成功后，建议把 `_config.yml` 中的 `url` 更新为新域名（影响 RSS、
-canonical 等绝对链接），并同步更新本 README 顶部的线上地址。
+绑定成功后，更新 [`_config.yml`](_config.yml)：`url` 改为新域名
+（影响 RSS、canonical 等绝对链接），`baseurl` 改为空字符串
+（文章内图片用了 `site.baseurl` 前缀，会自动适配，无需改任何文章），
+并同步更新本 README 顶部的线上地址。
 
 ## 常见问题
 

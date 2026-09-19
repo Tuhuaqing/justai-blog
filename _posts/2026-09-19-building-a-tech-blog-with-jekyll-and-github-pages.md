@@ -307,15 +307,18 @@ Liquid 模板写法（即使写在行内代码或代码块里），都会被 Liq
 「切换主题」章节），所有文章零改动。
 
 **Q：图片怎么放？**
-统一放在 `assets/images/`，文章里用标准语法引用：
+统一放在 `assets/images/`，文章里用 Jekyll 官方的标准写法引用
+（`site.baseurl` 保证在任何部署路径下都正确，绑定自定义域名后自动为空）：
 
+{% raw %}
 ```markdown
-![图片说明](/assets/images/2026-09-19-demo.png)
+![图片说明]({{ site.baseurl }}/assets/images/2026-09-19-demo.png)
 ```
+{% endraw %}
 
 下面是一张占位图的实际引用效果（文件位于 `assets/images/post-placeholder.svg`）：
 
-![图片占位符示例](/assets/images/post-placeholder.svg)
+![图片占位符示例]({{ site.baseurl }}/assets/images/post-placeholder.svg)
 
 ## 总结
 
