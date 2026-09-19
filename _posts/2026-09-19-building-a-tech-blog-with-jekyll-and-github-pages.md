@@ -250,6 +250,10 @@ Pages 的发布源（Source）设置为 **GitHub Actions** 而非
 
 默认地址是 `https://<username>.github.io`。绑定自己的域名需要两件事：
 
+> 实践记录：本站 justai-blog 于 2026-09-19 绑定了 apex 域名
+> `justtu.com`——仓库根目录放 CNAME 文件，DNS 指向 GitHub Pages
+> 官方 IP，GitHub 自动签发 HTTPS 证书，全程无需服务器。
+
 **第一，在 DNS 服务商处添加解析记录**：
 
 | 记录类型 | 主机记录 | 记录值 | 适用场景 |
