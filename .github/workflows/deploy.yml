@@ -1,12 +1,10 @@
 # =============================================================================
 # 将 Jekyll 站点构建并发布到 GitHub Pages
 # =============================================================================
-# 流程：push 到 main → checkout → 配置 Pages → 官方 Jekyll 构建 →
+# 流程：push 到 main → checkout → Ruby + Bundler 安装 → Jekyll 构建 →
 #       上传 artifact → deploy-pages 发布
 #
-# 使用官方 action `actions/jekyll-build-pages`：与 GitHub Pages 内置构建
-# 使用完全相同的工具链（Jekyll 版本与插件白名单一致），不存在兼容性漂移。
-# 构建失败会直接使 workflow 变红，并在邮件/页面中暴露错误。
+# 使用项目锁定的 Ruby 4 / Bundler 依赖树构建，再以 Pages artifact 部署。
 #
 # 前提（一次性）：仓库 Settings → Pages → Build and deployment →
 #                 Source 选择 "GitHub Actions"。
@@ -37,14 +35,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v6
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "4.0.7"
+          bundler-cache: true
 
       - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./
-          destination: ./_site
+        run: bundle exec jekyll build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5

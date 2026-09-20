@@ -1,48 +1,46 @@
 # justai-blog
 
-个人技术博客：写 Markdown，`git push`，自动发布。
+Just Tu 的个人技术博客。文章以 Markdown 存放在仓库中，推送到 `main` 后由
+GitHub Actions 构建并发布至 GitHub Pages。
 
-- **线上地址**：<https://justtu.com>（自定义域名；默认地址
-  <https://tuhuaqing.github.io/justai-blog/> 会自动 301 重定向到它）
-- **技术栈**：Jekyll · GitHub Pages · GitHub Actions · Minimal Mistakes 主题
-- **写作-发布闭环**：新建 Markdown → commit → push → 几分钟后自动上线
+- **线上地址**：<https://justtu.com>
+- **技术栈**：Ruby 4.0.7 · Jekyll 4 · Agency Jekyll Theme · GitHub Actions · GitHub Pages
+- **主题**：[Agency Jekyll Theme](https://github.com/raviriley/agency-jekyll-theme)
 
 ## 架构
 
 ```text
-Markdown 文章 (_posts/)
-        │  git push
-        ▼
-GitHub 仓库 ──触发──► GitHub Actions (deploy.yml)
-                        │  Jekyll 构建：Markdown → HTML + 主题渲染
-                        ▼
-                  GitHub Pages（CDN + HTTPS）
+_posts/*.md
+    │ git push main
+    ▼
+GitHub Actions
+    │ Ruby 4 + Bundler + Jekyll build
+    ▼
+_site/ Pages artifact
+    ▼
+GitHub Pages + justtu.com
 ```
 
-构建使用官方 action `actions/jekyll-build-pages`，与 GitHub Pages 内置
-工具链完全一致；本地开发使用同一套 `github-pages` 工具链（见 `Gemfile`），
-保证本地与线上构建结果一致。
+## 本地开发
 
-## 目录结构
+项目通过 [`.ruby-version`](.ruby-version) 固定为 Ruby `4.0.7`。确认当前终端使用
+该版本后，首次或依赖变化后执行：
 
-```text
-justai-blog/
-├── _posts/            # 文章（唯一需要日常关注的目录）
-├── _pages/            # 独立页面：关于 / 归档 / 分类 / 标签 / 搜索 / 404
-├── _data/
-│   └── navigation.yml # 顶部导航菜单
-├── assets/
-│   └── images/        # 文章配图与头像
-├── .github/workflows/
-│   └── deploy.yml     # 自动构建与部署（push 到 main 触发）
-├── _config.yml        # 站点配置：信息 / 主题 / 插件 / 默认值
-├── Gemfile            # 本地开发依赖（github-pages 工具链）
-└── README.md
+```bash
+ruby -v
+bundle install
+bundle exec jekyll serve
+```
+
+本地预览地址为 <http://127.0.0.1:4000>。提交前运行：
+
+```bash
+bundle exec jekyll build
 ```
 
 ## 如何写文章
 
-在 `_posts/` 下新建文件，**文件名必须是 `YYYY-MM-DD-标题-slug.md`**：
+在 `_posts/` 创建 `YYYY-MM-DD-title-slug.md`：
 
 ```markdown
 ---
@@ -50,110 +48,64 @@ title: "我的新文章"
 date: 2026-09-20 10:00:00 +0800
 categories: [教程]
 tags: [Jekyll]
-description: "一句话摘要，用于列表页与 SEO。"
+description: "一句话摘要，用于文章列表和 SEO。"
 ---
 
 正文使用标准 Markdown。
 ```
 
-要点：
-
-- Front Matter 只用标准字段：`title` / `date` / `categories` / `tags` / `description`；
-- 不要在文章里写主题专用 HTML，主题行为由 `_config.yml` 的 `defaults` 统一控制；
-- `date` 不要写未来时间，否则文章不会发布（Jekyll 默认跳过未来文章）；
-- 图片放 `assets/images/`，文中用 `![说明]({{ site.baseurl }}/assets/images/xxx.png)` 引用
-  （Jekyll 官方标准写法，任何部署子路径下都正确；绑定自定义域名后无需改动）；
+- 保持 Front Matter 包含 `title`、`date`、`categories`、`tags` 与 `description`；
+- 不要在文章中依赖主题专用 HTML，文章只写 Markdown；
+- 图片放入 `assets/images/`，使用 `![说明]({{ site.baseurl }}/assets/images/xxx.png)` 引用；
+- 日期不要写成未来时间，否则 Jekyll 默认不会发布文章。
 
 ## 如何发布
 
 ```bash
+bundle exec jekyll build
 git add .
 git commit -m "post: 我的新文章"
-git push
+git push origin main
 ```
 
-推送后到仓库 **Actions** 页面可查看构建进度，构建失败会显式报红并收到邮件。
+[`deploy.yml`](.github/workflows/deploy.yml) 会在 `main` 推送时使用 Ruby 4、
+Bundler 与本仓库的 `Gemfile.lock` 构建站点，上传 `_site` artifact，再由
+GitHub Pages 发布。进度和日志可在仓库的 Actions 页面查看。
 
-## 本地开发
+## 主题与内容边界
 
-```bash
-bundle install              # 首次或 Gemfile 变更后
-bundle exec jekyll serve    # 启动本地预览 http://127.0.0.1:4000
-```
-
-本地预览与线上使用同一套 GitHub Pages 工具链，所见即所得。
-
-> Ruby 环境要求：与 [GitHub Pages](https://pages.github.com/versions/) 兼容的
-> Ruby 版本即可（建议 3.x）。本机若未安装 Ruby，任何安装方式均可，
-> 项目不依赖系统级 Ruby。
-
-## 如何切换主题
-
-**只改一个文件的一个字段**：[`_config.yml`](_config.yml) 中的 `remote_theme`：
+当前使用 Agency 的远程主题，并在 [`_config.yml`](_config.yml) 中固定上游 commit：
 
 ```yaml
-# 当前主题
-remote_theme: "mmistakes/minimal-mistakes@4.28.1"
-
-# 例如换成官方 minima 主题：
-# remote_theme: "jekyll/minima@2.5.1"
+remote_theme: "raviriley/agency-jekyll-theme@d477a171ec9633c980c8ef9098eeac39b60ceba3"
 ```
 
-可选的收尾工作（不影响文章，只影响观感）：
+主题相关内容集中在以下位置：
 
-1. `_config.yml` 中的 `minimal_mistakes_skin`、`defaults` 段落
-   是 Minimal Mistakes 专用选项，换主题时按新主题文档调整或删除；
-2. `_data/navigation.yml` 按新主题的导航格式改写；
-3. `_pages/` 中各页面的 `layout` 值按新主题的布局名调整
-   （页面内容本身无需改动）。
+- `_config.yml`：主题、Jekyll、文章默认 layout 和插件；
+- `_data/navigation.yml`：导航；
+- `_data/sitetext.yml`：首页横幅和页脚文本；
+- `_layouts/`：为文章、独立页、归档、分类、标签和搜索提供与 Agency 一致的布局。
 
-**所有 `_posts/` 文章永远不需要任何改动**——这是本项目的内容/主题解耦约定。
+文章内容留在 `_posts/`，使用标准 Markdown，因此不需要因为主题迁移而修改。
 
-主题目录参考：[jamstackthemes.dev](https://jamstackthemes.dev/ssg/jekyll/)、
-[jekyllthemes.org](https://jekyllthemes.org/)（选择支持 `remote_theme` 的主题）。
+## 如何换主题
+
+1. 修改 `_config.yml` 的 `remote_theme` 或替换为新主题的 `theme` 配置；
+2. 根据新主题文档调整 `_layouts/`、`_data/navigation.yml` 与 `_data/sitetext.yml`；
+3. 保留 `_posts/` 的标准 Front Matter 和 Markdown；
+4. 执行 `bundle update`、`bundle exec jekyll build`，确认构建成功后再推送。
+
+更换到需要不同 Jekyll 版本的主题时，也要同步修改 `Gemfile` 中的 Jekyll 约束与
+`.ruby-version`，然后更新 `Gemfile.lock`。
 
 ## 自定义域名
 
-本站已绑定 **justtu.com**（apex 顶级域）。
-
-- 仓库根目录的 `CNAME` 文件内容为 `justtu.com`，GitHub Pages
-  设置中的 Custom domain 已启用；
-- apex 域不能使用 CNAME 记录，DNS 由 Cloudflare 托管，配置为
-  GitHub Pages 官方 A 记录（4 条）与 AAAA 记录（4 条），
-  代理状态为 **DNS only**（灰色云）；
-- HTTPS 由 GitHub 自动签发 Let's Encrypt 证书并强制跳转。
-
-### 绑定新域名的通用步骤
-
-默认地址为 `https://<username>.github.io/<repo>/`。绑定自有域名两步：
-
-1. **DNS 解析**（在你的域名服务商处配置）：
-
-   | 场景 | 记录 | 主机记录 | 记录值 |
-   | --- | --- | --- | --- |
-   | 子域名（推荐，如 `blog.example.com`） | `CNAME` | `blog` | `tuhuaqing.github.io` |
-   | 顶级域（如 `example.com`） | `A` / `AAAA` | `@` | GitHub Pages 官方公布的 IP（见[官方文档](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site)） |
-
-2. **仓库设置**：更新根目录 `CNAME` 文件内容为新域名（一行），
-   并在 `Settings → Pages → Custom domain` 中保存，勾选 **Enforce HTTPS**。
-
-绑定成功后，更新 [`_config.yml`](_config.yml)：`url` 改为新域名
-（影响 RSS、canonical 等绝对链接），`baseurl` 改为空字符串
-（文章内图片用了 `site.baseurl` 前缀，会自动适配，无需改任何文章），
-并同步更新本 README 顶部的线上地址。
-
-## 常见问题
-
-| 现象 | 排查方向 |
-| --- | --- |
-| push 后网站没更新 | 看 Actions 页面：构建是否失败、失败日志的行号 |
-| 文章不出现 | 文件名是否符合 `YYYY-MM-DD-title.md`；`date` 是否为未来时间 |
-| 构建报 Liquid 错误 | 文中代码块含 `{{ }}`/`{% %}`，需用 `{% raw %}` 包裹 |
-| 本地与线上样式不一致 | 本地执行 `bundle install` 更新工具链 |
+根目录 [`CNAME`](CNAME) 设置为 `justtu.com`。域名解析与 HTTPS 状态由 GitHub
+仓库的 `Settings -> Pages` 管理；修改域名后，同时更新 `_config.yml` 的 `url`。
 
 ## 安全约定
 
-- `.gitignore` 已排除 `.env`、`*.pem`、`*.key`、credentials/token 类文件；
-- 本项目无需任何 Secret：Actions 使用内置的 `GITHUB_TOKEN`，
-  权限已在 workflow 中最小化（`contents: read` + `pages: write` + `id-token: write`）；
-- 永远不要把 token、密钥写进文章或配置文件。
+- `.gitignore` 排除了 `.env`、私钥、证书、token/secret 类文件和构建产物；
+- Actions 使用 `GITHUB_TOKEN` 的最小部署权限，不需要把凭据写入仓库；
+- 不要把 Token、密码或私钥提交到文章、配置或工作流文件。

@@ -2,6 +2,25 @@
 title: "搜索"
 description: "站内搜索"
 permalink: /search/
-layout: search
-author_profile: false
+layout: page
 ---
+
+<input id="search-input" class="form-control" type="search" placeholder="搜索文章标题、摘要、分类或标签" autocomplete="off">
+<ul id="search-results" class="mt-4">
+  {% for post in site.posts %}
+  <li data-search="{{ post.title }} {{ post.description }} {{ post.categories | join: ' ' }} {{ post.tags | join: ' ' }}">
+    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+  </li>
+  {% endfor %}
+</ul>
+
+<script>
+  const searchInput = document.getElementById("search-input");
+  const searchResults = document.querySelectorAll("#search-results li");
+  searchInput.addEventListener("input", function () {
+    const query = this.value.trim().toLowerCase();
+    searchResults.forEach(function (item) {
+      item.hidden = query && !item.dataset.search.toLowerCase().includes(query);
+    });
+  });
+</script>

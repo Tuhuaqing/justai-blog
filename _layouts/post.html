@@ -1,0 +1,21 @@
+---
+layout: default
+---
+{% include nav.html %}
+<main class="container" style="padding-top: 130px; padding-bottom: 80px; max-width: 900px; min-height: 70vh;">
+  <article>
+    <p class="text-muted mb-2">{{ page.date | date: "%Y-%m-%d" }}</p>
+    <h1 class="mb-3">{{ page.title }}</h1>
+    {% if page.description %}<p class="lead text-muted">{{ page.description }}</p>{% endif %}
+    <hr class="mb-4">
+    {{ content }}
+    {% if page.categories.size > 0 or page.tags.size > 0 %}
+    <hr>
+    <p class="text-muted mb-0">
+      {% if page.categories.size > 0 %}分类：{{ page.categories | join: " / " }}{% endif %}
+      {% if page.categories.size > 0 and page.tags.size > 0 %} · {% endif %}
+      {% if page.tags.size > 0 %}标签：{{ page.tags | join: " / " }}{% endif %}
+    </p>
+    {% endif %}
+  </article>
+</main>

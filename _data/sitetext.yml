@@ -1,0 +1,11 @@
+zh-CN:
+  header:
+    title: "AI、云原生与工程实践"
+    text: "Just Tu"
+    button: "阅读文章"
+    buttonlink: "#posts"
+  footer:
+    legal: "GitHub"
+    social:
+      - url: "https://github.com/Tuhuaqing"
+        icon: "fab fa-github"

@@ -2,11 +2,12 @@
 title: "关于"
 description: "关于本博客与作者"
 permalink: /about/
+layout: page
 ---
 
 ## 关于本站
 
-这是一个使用 **Jekyll + GitHub Pages + GitHub Actions** 搭建的个人技术博客，
+这是 Just Tu 使用 **Jekyll + GitHub Pages + GitHub Actions** 搭建的个人技术博客，
 专注于 AI、云原生与工程效率方面的实践记录。
 
 ## 为什么写博客

@@ -142,8 +142,8 @@ Jekyll 的查找规则是：本地目录优先，本地没有的去主题里找�
 本项目的主题方案是 `remote_theme`（写在 `_config.yml` 中）：
 
 ```yaml
-# 主题直接从 GitHub 仓库引用，并固定版本，不进入本地依赖
-remote_theme: "mmistakes/minimal-mistakes@4.28.1"
+# Agency 主题直接从 GitHub 仓库引用，并固定上游 commit
+remote_theme: "raviriley/agency-jekyll-theme@d477a171ec9633c980c8ef9098eeac39b60ceba3"
 ```
 
 这样做的好处：
@@ -153,17 +153,17 @@ remote_theme: "mmistakes/minimal-mistakes@4.28.1"
 - **一键换肤**：切换主题只改这一行；
 - **构建时拉取**：GitHub Actions 构建时自动下载主题，无需本地安装。
 
-本项目使用 [Minimal Mistakes](https://mmistakes.github.io/minimal-mistakes/)
-——一个维护了十年以上、文档完善、对技术博客非常友好的主题，
-自带的功能包括：响应式布局、暗色系皮肤切换、代码高亮、
-目录（TOC）、阅读时长、分类/标签归档页、站内搜索、RSS、SEO 标签。
+本项目使用 [Agency Jekyll Theme](https://github.com/raviriley/agency-jekyll-theme)
+——基于 Bootstrap Agency 的响应式主题。主题负责首页横幅、导航、页脚与基础样式；
+仓库中的 `_layouts/` 为文章、归档、分类、标签与搜索页提供了与主题一致的内容布局。
+RSS、sitemap 和 SEO 标签由 Jekyll 插件生成。
 
 文章与主题的边界在本项目中被刻意收紧为：
 
 ```text
 文章（_posts/）  →  只写 title/date/categories/tags/description + 标准 Markdown
-主题（_config.yml）→  remote_theme、皮肤、defaults（布局/侧栏/TOC 等）
-导航（_data/navigation.yml）→  菜单项
+主题（_config.yml / _layouts/）→  remote_theme、默认布局与页面呈现
+主题内容（_data/）→  首页文案、页脚链接与菜单项
 ```
 
 ## GitHub Actions 如何自动构建
@@ -194,11 +194,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/configure-pages@v6
-      - uses: actions/jekyll-build-pages@v1
+      - uses: ruby/setup-ruby@v1
         with:
-          source: ./
-          destination: ./_site
+          ruby-version: "4.0.7"
+          bundler-cache: true
+      - run: bundle exec jekyll build
       - uses: actions/upload-pages-artifact@v5
         with:
           path: ./_site
@@ -217,9 +217,9 @@ jobs:
 
 几个值得注意的设计：
 
-- **`actions/jekyll-build-pages` 是官方构建器**，与 GitHub Pages 内置的
-  Jekyll 工具链完全一致（Jekyll 版本、插件白名单同步更新），
-  不存在"本地能构建、线上不认识"的漂移问题；
+- **Ruby 版本和依赖锁定**：`ruby/setup-ruby` 使用 Ruby 4.0.7，
+  `bundler-cache` 根据 `Gemfile.lock` 安装 Jekyll 4 与主题依赖；本地与 CI
+  都使用同一份 Gemfile / lockfile，构建环境可复现；
 - **权限最小化**：`contents: read` + `pages: write` + `id-token: write`，
   只授予部署所需的最小权限；
 - **major 版本固定**：所有 action 固定主版本号，行为可预期；
@@ -296,7 +296,7 @@ bundle exec jekyll serve
 # 打开 http://127.0.0.1:4000 ，修改文件自动刷新
 ```
 
-本地使用与线上相同的 `github-pages` 工具链（见 `Gemfile`），
+本地与 CI 都使用 Ruby 4.0.7 和 `Gemfile.lock` 中锁定的 Jekyll 依赖，
 所见即所得。
 
 **Q：构建时报 Liquid 语法错误？**
@@ -307,8 +307,8 @@ Liquid 模板写法（即使写在行内代码或代码块里），都会被 Liq
 如何自动构建」一节的 workflow 代码就是这样处理的）。
 
 **Q：想换主题怎么办？**
-只改 `_config.yml` 的 `remote_theme` 一行（详见仓库 README
-「切换主题」章节），所有文章零改动。
+按新主题文档修改 `_config.yml`、`_layouts/` 和 `_data/`（详见仓库 README
+「如何换主题」章节），所有文章零改动。
 
 **Q：图片怎么放？**
 统一放在 `assets/images/`，文章里用 Jekyll 官方的标准写法引用
@@ -342,5 +342,5 @@ Liquid 模板写法（即使写在行内代码或代码块里），都会被 Liq
 
 - [Jekyll 官方文档](https://jekyllrb.com/docs/)
 - [GitHub Pages 文档](https://docs.github.com/en/pages)
-- [Minimal Mistakes 主题文档](https://mmistakes.github.io/minimal-mistakes/docs/)
+- [Agency Jekyll Theme](https://github.com/raviriley/agency-jekyll-theme)
 - [GitHub Actions 文档](https://docs.github.com/en/actions)

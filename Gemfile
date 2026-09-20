@@ -2,20 +2,13 @@
 
 source "https://rubygems.org"
 
-# ---------------------------------------------------------------------------
-# 本地开发工具链：与 GitHub Pages 官方构建环境保持一致。
-#
-# github-pages gem 锁定了 GitHub Pages 当前支持的 Jekyll 版本与全部插件白名单
-# （含 jekyll-remote-theme、jekyll-paginate、jekyll-sitemap、jekyll-feed、
-#  jekyll-seo-tag、jekyll-include-cache 等），
-# 因此本地 `bundle exec jekyll build` 的结果与线上部署结果一致。
-#
-# 说明：GitHub Actions 端使用官方 action `actions/jekyll-build-pages` 构建，
-# 它自带同一套工具链，不读取本文件；本文件仅用于本地开发/预览。
-# ---------------------------------------------------------------------------
-gem "github-pages", group: :jekyll_plugins
+# 本项目使用 Ruby 4.x 与 Jekyll 4。GitHub Actions 使用同一份 Gemfile 构建，
+# 再将生成的静态文件发布到 GitHub Pages。
+ruby "4.0.7"
 
-# 性能更好的分页插件（不在 Pages 白名单内，仅本地可选，勿用于线上）
-# group :development do
-#   gem "jekyll-paginate-v2"
-# end
+gem "jekyll", "~> 4.4"
+gem "jekyll-remote-theme", group: :jekyll_plugins
+gem "jekyll-feed", group: :jekyll_plugins
+gem "jekyll-sitemap", group: :jekyll_plugins
+gem "jekyll-seo-tag", group: :jekyll_plugins
+gem "webrick", "~> 1.9"
