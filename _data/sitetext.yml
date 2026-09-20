@@ -1,11 +1,11 @@
 zh-CN:
   header:
     title: "AI、云原生与边缘计算技术实践"
-    text: ""
+    text: "Just Tu"
     button: "阅读文章"
     buttonlink: "#posts"
   footer:
-    legal: "GitHub"
+    legal: "说明与隐私"
     social:
       - url: "https://github.com/Tuhuaqing"
         icon: "fab fa-github"
