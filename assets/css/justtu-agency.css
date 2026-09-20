@@ -1,3 +1,10 @@
 header.masthead {
   background-image: linear-gradient(rgba(7, 13, 25, 0.7), rgba(7, 13, 25, 0.58)), url("../img/technology-circuit-hero.jpg");
 }
+
+ul.social-buttons li a {
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  font-size: 16px;
+}
