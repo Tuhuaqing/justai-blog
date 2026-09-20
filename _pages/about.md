@@ -8,7 +8,7 @@ layout: page
 ## 关于本站
 
 这是 Just Tu 使用 **Jekyll + GitHub Pages + GitHub Actions** 搭建的个人技术博客，
-专注于 AI、云原生与工程效率方面的实践记录。
+专注于 AI、云原生与边缘计算方面的实践记录。
 
 ## 为什么写博客
 
