@@ -18,4 +18,4 @@ layout: page
 ## 联系方式
 
 - GitHub: <https://github.com/Tuhuaqing>
-- mail: north.america@qq.com
+- mail: <mailto://north.america@qq.com>
