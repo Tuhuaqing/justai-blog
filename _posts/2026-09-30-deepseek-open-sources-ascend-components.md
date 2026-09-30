@@ -6,9 +6,9 @@ tags: [DeepSeek, 昇腾, Ascend, TileLang, DeepGEMM, DeepEP, FlashMLA, DeepSelec
 description: "DeepSeek 正式开源面向华为昇腾算力平台的基础设施组件，涵盖 TileLang 高级语言编译工具、核心计算库与分布式通信库，与此前面向英伟达平台的开源组件一一对应。"
 ---
 
-> **转载说明**：本文转载自微信公众号「DeepSeek」，原文发布于 2026-09-30。
-> 原文链接：[DeepSeek 开源昇腾基础组件](https://mp.weixin.qq.com/s?__biz=Mzk0OTYwNzc3NQ==&mid=2247485843&idx=1&sn=565102c3642d88e814331390bf62d276)
-> 版权归原作者及 DeepSeek 所有，本文仅作学习交流用途。
+> **转载说明**：本文转载自微信公众号「DeepSeek」，原文发布于 2026-09-30。  
+> 原文链接：[DeepSeek 开源昇腾基础组件](https://mp.weixin.qq.com/s?__biz=Mzk0OTYwNzc3NQ==&mid=2247485843&idx=1&sn=565102c3642d88e814331390bf62d276)  
+> 版权归原作者及 DeepSeek 所有，本文仅作学习交流用途。  
 
 今天，我们正式开源面向华为昇腾算力平台的基础设施组件，涵盖 TileLang 高级语言编译工具、计算库、分布式通信库。所有组件与此前面向英伟达平台的开源组件一一对应。
 
