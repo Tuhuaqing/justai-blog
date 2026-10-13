@@ -8,3 +8,66 @@ ul.social-buttons li a {
   line-height: 36px;
   font-size: 16px;
 }
+
+/* ---------- 文章代码块与 Rouge 语法高亮（GitHub 风格浅色主题） ---------- */
+.highlight {
+  background: #f6f8fa;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  margin-bottom: 1.25rem;
+}
+
+.highlight pre {
+  margin: 0;
+  padding: 0.9rem 1.1rem;
+  background: transparent;
+  color: #24292e;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+
+.highlight code {
+  color: inherit;
+  background: transparent;
+}
+
+/* 注释 */
+.highlight .c,
+.highlight .c1,
+.highlight .cm,
+.highlight .cp,
+.highlight .cs {
+  color: #6a737d;
+  font-style: italic;
+}
+
+/* 关键字 / 运算符 */
+.highlight .k, .highlight .kc, .highlight .kd,
+.highlight .kn, .highlight .kr, .highlight .kt {
+  color: #d73a49;
+}
+
+/* 字符串 */
+.highlight .s, .highlight .s1, .highlight .s2, .highlight .sb,
+.highlight .sc, .highlight .sd, .highlight .se, .highlight .si,
+.highlight .sx, .highlight .sr, .highlight .ss {
+  color: #032f62;
+}
+
+/* 数字 */
+.highlight .m, .highlight .mi, .highlight .mf,
+.highlight .mh, .highlight .mo {
+  color: #005cc5;
+}
+
+/* 函数名 / 类名 / 命名空间 / 装饰器 */
+.highlight .nf, .highlight .fm, .highlight .nc,
+.highlight .nn, .highlight .nd {
+  color: #6f42c1;
+}
+
+/* 内建对象 / 常量 */
+.highlight .nb, .highlight .bp, .highlight .no {
+  color: #005cc5;
+}
